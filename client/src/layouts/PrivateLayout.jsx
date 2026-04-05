@@ -1,0 +1,15 @@
+import { Outlet } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+
+const PrivateLayout = () => {
+  return (
+    <div className="flex min-h-screen bg-dark-900">
+      <Sidebar />
+      <main className="flex-1 overflow-auto">
+        <Outlet />
+      </main>
+    </div>
+  );
+};
+
+export default PrivateLayout;
