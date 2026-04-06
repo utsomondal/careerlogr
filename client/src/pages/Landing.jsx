@@ -5,7 +5,7 @@ import img from "/hero-img.png";
 import Logo from "../components/Logo";
 import Badge from "../components/LandingPage/Badge";
 import Stats from "../components/LandingPage/Stats";
-import Background from "../components/LandingPage/Background";
+import Background from "../components/Background";
 import OfferCard from "../components/LandingPage/OfferCard";
 import PipelineCard from "../components/LandingPage/PipelineCard";
 
