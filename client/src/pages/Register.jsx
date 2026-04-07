@@ -11,7 +11,7 @@ const Register = () => {
 
   const onSubmit = async (data) => {
     const result = await registerUser(data);
-    login(result.user);
+    login(result.data.user);
     navigate("/dashboard");
   };
 

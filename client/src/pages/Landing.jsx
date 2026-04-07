@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 import { IoArrowForward } from "react-icons/io5";
+import { useAuth } from "../hooks/useAuth";
 import img from "/hero-img.png";
 import Logo from "../components/Logo";
 import Badge from "../components/LandingPage/Badge";
@@ -11,11 +12,15 @@ import PipelineCard from "../components/LandingPage/PipelineCard";
 
 const Landing = () => {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) navigate("/dashboard");
-  }, [navigate]);
+    if (!loading && user) navigate("/dashboard");
+  }, [navigate, user, loading]);
+
+  const handleGetStarted = () => {
+    user ? navigate("/dashboard") : navigate("/register");
+  };
 
   return (
     <div className="min-h-screen bg-dark-900 flex items-center justify-center px-12 relative overflow-hidden">
@@ -42,13 +47,13 @@ const Landing = () => {
           <Stats />
 
           <div className="flex items-center gap-5">
-            <Link
-              to="/register"
+            <button
+              onClick={handleGetStarted}
               className="flex items-center gap-2 bg-accent hover:bg-accent/90 text-white px-7 py-3.5 rounded-[10px] font-body font-semibold text-sm tracking-wide transition-all duration-200 hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(91,159,236,0.25)]"
             >
-              Get Started Free
+              Get Started
               <IoArrowForward size={18} />
-            </Link>
+            </button>
             <Link
               to="/login"
               className="font-body text-sm font-light text-white/30 hover:text-white transition-colors duration-200"

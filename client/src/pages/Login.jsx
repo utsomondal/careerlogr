@@ -1,2 +1,2 @@
-const Login = () => <div className="text-white">Login page</div>;
+const Login = () => <div className="">Login askldjaslpage</div>;
 export default Login;

@@ -22,3 +22,8 @@ export const logoutUser = async () => {
     method: "POST",
   });
 };
+
+// Get current user info
+export const getMe = async () => {
+  return await apiFetch("/auth/me");
+};
