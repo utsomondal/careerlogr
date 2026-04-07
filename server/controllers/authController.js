@@ -124,4 +124,17 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+// logout controller
+const logout = (req, res) => {
+  // Clear the token cookie
+};
+
+// get current user controller
+const getMe = async (req, res) => {
+  res.json({
+    success: true,
+    data: { user: req.user },
+  });
+};
+
+module.exports = { register, login, getMe, logout };
