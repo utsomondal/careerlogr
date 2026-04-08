@@ -1,22 +1,22 @@
 import { useNavigate } from "react-router";
+import { useState } from "react";
+import { loginUser } from "../api/auth";
+import { useAuth } from "../hooks/useAuth";
 import Background from "../components/Background";
 import LoginLeft from "../components/Auth/LoginPage/LoginLeft";
 import LoginForm from "../components/Auth/LoginPage/LoginForm";
-import { useState } from "react";
-import apiFetch from "../api/apiFetch";
 
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      await apiFetch("/auth/login", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
-      navigate("/dashboard");
+      const result = await loginUser(data);
+      login(result.data.user);
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       alert(error.message);
     } finally {

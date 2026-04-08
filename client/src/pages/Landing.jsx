@@ -15,11 +15,11 @@ const Landing = () => {
   const { user, loading } = useAuth();
 
   useEffect(() => {
-    if (!loading && user) navigate("/dashboard");
-  }, [navigate, user, loading]);
+    if (!loading && user) navigate("/dashboard", { replace: true });
+  }, [user, loading, navigate]);
 
   const handleGetStarted = () => {
-    user ? navigate("/dashboard") : navigate("/register");
+    user ? navigate("/dashboard", { replace: true }) : navigate("/register", { replace: true });
   };
 
   return (

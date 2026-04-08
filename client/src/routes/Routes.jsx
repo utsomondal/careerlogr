@@ -5,7 +5,8 @@ import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import PrivateLayout from "../layouts/PrivateLayout";
 import PrivateRoute from "./PrivateRoute";
-
+import Applications from "../pages/Applications";
+import AddApplication from "../pages/AddApplication";
 
 const router = createBrowserRouter([
   // Public
@@ -22,6 +23,22 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Dashboard />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/applications",
+        element: (
+          <PrivateRoute>
+            <Applications />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/application/add",
+        element: (
+          <PrivateRoute>
+            <AddApplication />
           </PrivateRoute>
         ),
       },

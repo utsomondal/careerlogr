@@ -7,7 +7,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // check if user is logged in on app load
   useEffect(() => {
     const checkAuth = async () => {
       try {
@@ -19,14 +18,17 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
       }
     };
-
     checkAuth();
   }, []);
 
-  const login = (userData) => setUser(userData);
-  const logout = () => setUser(null);
+  const login = (userData) => {
+    setUser(userData);
+  };
 
-  if (loading) return null;
+  const logout = () => {
+    setUser(null);
+    setLoading(false);
+  };
 
   return (
     <AuthContext.Provider value={{ user, login, logout, loading }}>
