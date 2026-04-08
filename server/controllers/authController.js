@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { getDB } = require("../config/db");
+const { ObjectId } = require("mongodb");
 
 // Helper: cookie config
 const getCookieOptions = () => {
@@ -147,10 +148,38 @@ const logout = (req, res) => {
 
 // get current user
 const getMe = async (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: { user: req.user },
-  });
+  try {
+    const db = getDB();
+    const user = await db
+      .collection("users")
+      .findOne(
+        { _id: new ObjectId(req.user.userId) },
+        { projection: { password: 0 } },
+      );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      data: {
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          createdAt: user.createdAt,
+        },
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
 };
 
 module.exports = { register, login, logout, getMe };
