@@ -2,13 +2,25 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { getDB } = require("../config/db");
 
+// Helper: cookie config
+const getCookieOptions = () => {
+  const isProd = process.env.NODE_ENV === "production";
+
+  return {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? "None" : "Lax",
+    path: "/",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  };
+};
+
 // register controller
 const register = async (req, res) => {
   try {
     const db = getDB();
     const { name, email, password } = req.body;
 
-    // Validate input
     if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
@@ -16,7 +28,6 @@ const register = async (req, res) => {
       });
     }
 
-    // Check if user already exists
     const existingUser = await db.collection("users").findOne({ email });
     if (existingUser) {
       return res.status(400).json({
@@ -25,11 +36,9 @@ const register = async (req, res) => {
       });
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
     const now = new Date().toISOString();
 
-    // Create new user
     const result = await db.collection("users").insertOne({
       name,
       email,
@@ -38,18 +47,14 @@ const register = async (req, res) => {
       updatedAt: now,
     });
 
-    // Generate JWT token
     const token = jwt.sign(
       { userId: result.insertedId, email },
       process.env.JWT_SECRET,
       { expiresIn: "7d" },
     );
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+
+    res.cookie("token", token, getCookieOptions());
+
     res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -77,7 +82,15 @@ const login = async (req, res) => {
     const db = getDB();
     const { email, password } = req.body;
 
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and password are required",
+      });
+    }
+
     const user = await db.collection("users").findOne({ email });
+
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -86,6 +99,7 @@ const login = async (req, res) => {
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
+
     if (!isMatch) {
       return res.status(400).json({
         success: false,
@@ -98,12 +112,9 @@ const login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "7d" },
     );
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+
+    res.cookie("token", token, getCookieOptions());
+
     res.status(200).json({
       success: true,
       message: "Login successful",
@@ -126,15 +137,20 @@ const login = async (req, res) => {
 
 // logout controller
 const logout = (req, res) => {
-  // Clear the token cookie
+  res.clearCookie("token", getCookieOptions());
+
+  res.status(200).json({
+    success: true,
+    message: "Logout successful",
+  });
 };
 
-// get current user controller
+// get current user
 const getMe = async (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
     data: { user: req.user },
   });
 };
 
-module.exports = { register, login, getMe, logout };
+module.exports = { register, login, logout, getMe };
