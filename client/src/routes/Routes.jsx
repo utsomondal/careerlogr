@@ -4,7 +4,8 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Dashboard from "../pages/Dashboard";
 import PrivateLayout from "../layouts/PrivateLayout";
-import PrivateRoute from "../components/PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
+
 
 const router = createBrowserRouter([
   // Public
