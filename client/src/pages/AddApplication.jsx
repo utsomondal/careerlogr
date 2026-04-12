@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import { useWorkspace } from "../hooks/useWorkspace";
 import {
   FiBriefcase,
   FiUser,
@@ -7,12 +6,14 @@ import {
   FiDollarSign,
   FiFileText,
   FiLink,
+  FiCheckSquare,
 } from "react-icons/fi";
 import { useNavigate } from "react-router";
+import { createApplication } from "../api/application";
+import toast from "react-hot-toast";
 
 const AddApplication = () => {
   const navigate = useNavigate();
-  const { mode, setMode, setRealJobs } = useWorkspace();
 
   const {
     register,
@@ -25,25 +26,17 @@ const AddApplication = () => {
     },
   });
 
-  const onSubmit = (data) => {
-    const now = new Date().toISOString();
-
-    const newJob = {
-      ...data,
-      createdAt: now,
-      updatedAt: now,
-    };
-
-    if (mode === "demo") {
-      setMode("real");
+  const onSubmit = async (data) => {
+    try {
+      const newApplication = {
+        ...data,
+      };
+      await createApplication(newApplication);
+      reset();
+      toast.success("Application added successfully!");
+    } catch (error) {
+      console.log(error.message);
     }
-
-    setRealJobs((prev) => [newJob, ...prev]);
-
-    console.log(newJob);
-
-    reset();
-    navigate("/dashboard");
   };
 
   const labelStyle = "text-xs text-gray-400 ml-1";
@@ -107,23 +100,31 @@ const AddApplication = () => {
           <div>
             <label className={labelStyle}>Status *</label>
             <div className="relative mt-1">
-              <FiBriefcase className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-
+              <FiCheckSquare className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
               <select
                 {...register("status", { required: "Status is required" })}
                 defaultValue=""
                 className={`${inputBase} appearance-none pr-10`}
               >
-                <option value="" disabled>
+                <option value="" disabled className="bg-dark-800">
                   Choose status
                 </option>
-                <option value="Applied">Applied</option>
-                <option value="Screening">Screening</option>
-                <option value="Interview">Interview</option>
-                <option value="Offer">Offer</option>
-                <option value="Rejected">Rejected</option>
+                <option value="Applied" className="bg-dark-800">
+                  Applied
+                </option>
+                <option value="Screening" className="bg-dark-800">
+                  Screening
+                </option>
+                <option value="Interview" className="bg-dark-800">
+                  Interview
+                </option>
+                <option value="Offer" className="bg-dark-800">
+                  Offer
+                </option>
+                <option value="Rejected" className="bg-dark-800">
+                  Rejected
+                </option>
               </select>
-
               {/* custom arrow */}
               <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
                 ▼

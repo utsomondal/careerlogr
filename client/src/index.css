@@ -15,3 +15,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
 }
+input[type="date"] {
+  color: rgb(107 114 128);
+}
+select {
+  color: rgb(107 114 128);
+}

@@ -7,6 +7,7 @@ import Logo from "../Logo";
 import Avatar from "./Avatar";
 import Navbar from "./Navbar";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const { user, logout } = useAuth();
@@ -14,9 +15,18 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
   const location = useLocation();
 
   const handleLogout = async () => {
-    await logoutUser();
-    logout();
-    navigate("/", { replace: true });
+    const toastId = toast.loading("Logging out...");
+
+    try {
+      await logoutUser();
+      logout();
+
+      toast.success("Logged out successfully", { id: toastId });
+
+      navigate("/", { replace: true });
+    } catch {
+      toast.error("Logout failed", { id: toastId });
+    }
   };
 
   useEffect(() => {

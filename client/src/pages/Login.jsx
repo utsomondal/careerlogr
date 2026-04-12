@@ -5,6 +5,7 @@ import { useAuth } from "../hooks/useAuth";
 import Background from "../components/Background";
 import LoginLeft from "../components/Auth/LoginPage/LoginLeft";
 import LoginForm from "../components/Auth/LoginPage/LoginForm";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -12,13 +13,21 @@ const Login = () => {
   const { login } = useAuth();
 
   const onSubmit = async (data) => {
+    const toastId = toast.loading("Logging in...");
+
     setIsSubmitting(true);
+
     try {
-      const result = await loginUser(data);
-      login(result.data.user);
+      await loginUser(data);
+      await login();
+
+      toast.success("Welcome back 👋", { id: toastId });
+
       navigate("/dashboard", { replace: true });
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message || "Login failed", {
+        id: toastId,
+      });
     } finally {
       setIsSubmitting(false);
     }

@@ -7,27 +7,27 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const fetchUser = async () => {
+    try {
+      const result = await getMe();
+      setUser(result.data);
+    } catch {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const result = await getMe();
-        setUser(result.data.user);
-      } catch {
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    checkAuth();
+    fetchUser();
   }, []);
 
-  const login = (userData) => {
-    setUser(userData);
+  const login = async () => {
+    await fetchUser();
   };
 
   const logout = () => {
     setUser(null);
-    setLoading(false);
   };
 
   return (

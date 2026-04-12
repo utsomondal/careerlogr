@@ -4,22 +4,34 @@ import { registerUser } from "../api/auth";
 import Background from "../components/Background";
 import RegisterLeft from "../components/Auth/RegisterPage/RegisterLeft";
 import RegisterForm from "../components/Auth/RegisterPage/RegisterForm";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const onSubmit = async (data) => {
-    const result = await registerUser(data);
-    login(result.data.user);
-    navigate("/dashboard");
+    const toastId = toast.loading("Creating account...");
+
+    try {
+      await registerUser(data);
+      await login();
+
+      toast.success("Account created 🎉", { id: toastId });
+
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error(error.message || "Registration failed", {
+        id: toastId,
+      });
+    }
   };
 
   return (
     <div className="min-h-screen bg-dark-900 text-white flex items-center justify-center relative overflow-hidden">
       <Background />
       <div className="w-full max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-12 items-center relative z-10">
-        <RegisterLeft/>
+        <RegisterLeft />
         <div className="flex justify-center">
           <RegisterForm onSubmit={onSubmit} />
         </div>
