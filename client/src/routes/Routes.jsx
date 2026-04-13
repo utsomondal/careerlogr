@@ -7,16 +7,22 @@ import PrivateLayout from "../layouts/PrivateLayout";
 import PrivateRoute from "./PrivateRoute";
 import Applications from "../pages/Applications";
 import AddApplication from "../pages/AddApplication";
+import ErrorPage from "../pages/ErrorPage";
 
 const router = createBrowserRouter([
-  // Public
-  { path: "/", element: <Landing /> },
+  // 🌐 Public routes
+  {
+    path: "/",
+    element: <Landing />,
+    errorElement: <ErrorPage />, 
+  },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
 
-  // Protected — with sidebar
+  // 🔐 Protected routes
   {
     element: <PrivateLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/dashboard",
@@ -43,6 +49,12 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+
+  // ❗ fallback for any unmatched route
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);
 
