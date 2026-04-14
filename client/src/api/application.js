@@ -1,21 +1,26 @@
 import apiFetch from "./apiFetch";
 
-// GET all
-export const getApplications = () => {
-  return apiFetch("/api/applications");
-};
-
 // CREATE
 export const createApplication = (data) => {
-  return apiFetch("/api/applications", {
+  return apiFetch("/applications", {
     method: "POST",
     body: JSON.stringify(data),
   });
 };
 
+// GET all
+export const getApplications = () => {
+  return apiFetch("/applications");
+};
+
+// GET by ID
+export const getApplicationById = (id) => {
+  return apiFetch(`/applications/${id}`);
+};
+
 // UPDATE
 export const updateApplication = (id, data) => {
-  return apiFetch(`/api/applications/${id}`, {
+  return apiFetch(`/applications/${id}`, {
     method: "PATCH",
     body: JSON.stringify(data),
   });
@@ -23,7 +28,7 @@ export const updateApplication = (id, data) => {
 
 // DELETE
 export const deleteApplication = (id) => {
-  return apiFetch(`/api/applications/${id}`, {
+  return apiFetch(`/applications/${id}`, {
     method: "DELETE",
   });
 };

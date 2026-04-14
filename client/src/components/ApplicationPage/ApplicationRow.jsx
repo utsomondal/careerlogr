@@ -1,8 +1,9 @@
+import { Link } from "react-router";
 import { statusColors } from "./statusConfig";
 import { FiArrowUpRight, FiEdit2, FiTrash2 } from "react-icons/fi";
 
 const ApplicationRow = ({ application, onConfirmDelete }) => {
-  const { company, role, salary, status, dateApplied, isRemote, jobUrl } =
+  const { _id, company, role, salary, status, dateApplied, isRemote, jobUrl } =
     application;
 
   return (
@@ -68,15 +69,17 @@ const ApplicationRow = ({ application, onConfirmDelete }) => {
             <span className="text-xs text-white/20">—</span>
           )}
         </td>
-        
+
         <td className="py-4 px-5">
           <div className="flex items-center gap-2 transition-opacity duration-150">
-            <button
-              title="Edit application"
-              className="p-1.5 rounded-md text-white/60 hover:text-amber-400 hover:bg-amber-400/10 transition-colors duration-150"
-            >
-              <FiEdit2 size={16} />
-            </button>
+            <Link to={`/application/update/${application._id}`}>
+              <button
+                title="Edit application"
+                className="p-1.5 rounded-md text-white/60 hover:text-amber-400 hover:bg-amber-400/10 transition-colors duration-150"
+              >
+                <FiEdit2 size={16} />
+              </button>
+            </Link>
 
             <button
               onClick={onConfirmDelete}

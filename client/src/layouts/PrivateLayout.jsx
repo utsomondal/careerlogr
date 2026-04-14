@@ -11,14 +11,14 @@ const PrivateLayout = () => {
     location.pathname === "/" ? "Dashboard" : location.pathname.slice(1);
 
   return (
-    <div className="flex min-h-screen bg-dark-800">
+    <div className="flex min-h-dvh bg-dark-800">
       {/* Sidebar */}
       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
       {/* Main */}
-      <main className="flex-1 min-h-screen overflow-y-auto">
+      <main className="flex-1 min-w-0 min-h-dvh overflow-y-auto bg-dark-900">
         {/* Mobile Topbar */}
-        <div className="md:hidden flex items-center justify-between p-4 border-b border-dark-500">
+        <div className="md:hidden flex items-center justify-between px-4 py-3 border-b border-dark-500 bg-dark-800">
           <button onClick={() => setIsOpen(true)}>
             <IoIosMenu size={24} color="white" />
           </button>

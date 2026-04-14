@@ -8,18 +8,19 @@ import PrivateRoute from "./PrivateRoute";
 import Applications from "../pages/Applications";
 import AddApplication from "../pages/AddApplication";
 import ErrorPage from "../pages/ErrorPage";
+import UpdateApplication from "../pages/UpdateApplication";
 
 const router = createBrowserRouter([
-  // 🌐 Public routes
+  //  Public routes
   {
     path: "/",
     element: <Landing />,
-    errorElement: <ErrorPage />, 
+    errorElement: <ErrorPage />,
   },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
 
-  // 🔐 Protected routes
+  // Protected routes
   {
     element: <PrivateLayout />,
     errorElement: <ErrorPage />,
@@ -48,10 +49,18 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/application/update/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateApplication />
+          </PrivateRoute>
+        ),
+      }
     ],
   },
 
-  // ❗ fallback for any unmatched route
+  // fallback for any unmatched route
   {
     path: "*",
     element: <ErrorPage />,
