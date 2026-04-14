@@ -16,16 +16,18 @@ const Applications = () => {
   if (isError) return <ErrorDisplay error={error} />;
 
   return (
-    <div className="min-h-screen bg-dark-900 px-6 py-10">
-      <ApplicationsHeader count={applications.length} />
-      {applications.length === 0 ? (
-        <div className="flex items-center justify-center min-h-[calc(100vh-168px)]">
-          <p className="text-dark-500 text-lg">No applications yet.</p>
-          
-        </div>
-      ) : (
-        <ApplicationsTable applications={applications} />
-      )}
+    <div className="min-h-screen bg-dark-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
+        <ApplicationsHeader count={applications.length} />
+
+        {applications.length === 0 ? (
+          <div className="flex items-center justify-center min-h-[60vh]">
+            <p className="text-dark-500 text-lg">No applications yet.</p>
+          </div>
+        ) : (
+          <ApplicationsTable applications={applications} />
+        )}
+      </div>
     </div>
   );
 };

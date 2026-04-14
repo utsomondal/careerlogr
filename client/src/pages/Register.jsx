@@ -5,6 +5,7 @@ import Background from "../components/Background";
 import RegisterLeft from "../components/Auth/RegisterPage/RegisterLeft";
 import RegisterForm from "../components/Auth/RegisterPage/RegisterForm";
 import toast from "react-hot-toast";
+import Logo from "../components/Logo";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -28,12 +29,21 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-dark-900 text-white flex items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-dark-900 relative overflow-hidden px-4 sm:px-6 lg:px-12">
       <Background />
-      <div className="w-full max-w-7xl mx-auto px-6 py-16 grid lg:grid-cols-2 gap-12 items-center relative z-10">
-        <RegisterLeft />
-        <div className="flex justify-center">
-          <RegisterForm onSubmit={onSubmit} />
+
+      <div className="absolute top-6 left-6 z-50">
+        <Logo />
+      </div>
+
+      <div className="min-h-screen flex items-center pt-24 lg:pt-28">
+        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
+          <div className="hidden lg:block">
+            <RegisterLeft />
+          </div>
+          <div className="flex justify-center w-full">
+            <RegisterForm onSubmit={onSubmit} />
+          </div>
         </div>
       </div>
     </div>

@@ -1,9 +1,8 @@
 const Background = () => {
   return (
     <>
-      {/* Grid background */}
       <div
-        className="fixed inset-0 pointer-events-none"
+        className="fixed inset-0 pointer-events-none hidden sm:block opacity-70"
         style={{
           backgroundImage: `
             linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
@@ -13,11 +12,11 @@ const Background = () => {
         }}
       />
 
-      {/* Blue glow */}
       <div
-        className="fixed inset-0 pointer-events-none"
+        className="fixed inset-0 pointer-events-none opacity-60 sm:opacity-100"
         style={{
-          background: `radial-gradient(ellipse 80% 50% at 20% 50%, rgba(91,159,236,0.06) 0%, transparent 60%)`,
+          background:
+            "radial-gradient(ellipse 80% 50% at 20% 50%, rgba(91,159,236,0.05) 0%, transparent 65%)",
         }}
       />
     </>
