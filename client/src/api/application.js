@@ -32,3 +32,8 @@ export const deleteApplication = (id) => {
     method: "DELETE",
   });
 };
+
+// GET STATS
+export const getApplicationStats = async () => {
+  return apiFetch("/applications/stats");
+};
