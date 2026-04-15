@@ -37,3 +37,9 @@ export const deleteApplication = (id) => {
 export const getApplicationStats = async () => {
   return apiFetch("/applications/stats");
 };
+
+// GET RECENT APPLICATIONS
+export const getRecentApplications = async (limit = 5) => {
+  return apiFetch(`/applications/recent?limit=${limit}`);
+};
+
