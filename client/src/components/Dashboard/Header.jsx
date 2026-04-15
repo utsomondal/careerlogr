@@ -4,7 +4,7 @@ import { useAuth } from "../../hooks/useAuth";
 import useGreetings from "../../hooks/useGreetings";
 
 const Header = () => {
-  const { greeting, subtext, icon: Icon, cta } = useGreetings();
+  const { greeting, subtext, icon: Icon } = useGreetings();
   const { user } = useAuth();
 
   return (
@@ -27,7 +27,7 @@ const Header = () => {
           hover:-translate-y-px"
         >
           <IoMdAdd size={16} />
-          {cta}
+          Add New
         </Link>
       </div>
     </div>

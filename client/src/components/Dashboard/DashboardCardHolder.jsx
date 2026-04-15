@@ -7,9 +7,11 @@ const DashboardCardHolder = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["application-data"],
     queryFn: getApplicationStats,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 
-  if (isLoading) return <p>...</p>;
+  if (isLoading) return null;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">

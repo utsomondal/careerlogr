@@ -5,15 +5,15 @@ import { statusColors } from "../ApplicationPage/statusConfig";
 const RecentApplications = () => {
   const { data } = useQuery({
     queryKey: ["recentApplications"],
-    queryFn: () => getRecentApplications(5),
-    staleTime: 1000 * 60,
+    queryFn: () => getRecentApplications(6),
+    staleTime: 0,
     refetchOnWindowFocus: true,
   });
 
   const applications = data?.data || [];
 
   return (
-    <div className="bg-dark-700/80 border border-white/10 rounded-2xl backdrop-blur-xl shadow-sm px-5">
+    <div className="bg-dark-700/80 border border-white/10 rounded-2xl backdrop-blur-xl shadow-sm px-5 pb-5">
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm text-white/80">
           <thead className="text-white/60 border-b border-white/10">
@@ -44,7 +44,11 @@ const RecentApplications = () => {
                   </span>
                 </td>
                 <td className="py-3 px-2">
-                  {new Date(app.createdAt).toLocaleDateString()}
+                  {new Date(app.createdAt).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
                 </td>
               </tr>
             ))}

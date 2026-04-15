@@ -9,7 +9,6 @@ export const getGreetings = () => {
       icon: BsSunrise,
       greeting: "Good morning",
       subtext: "Start strong — plan your applications",
-      cta: "Add Application",
     };
   }
 
@@ -18,7 +17,6 @@ export const getGreetings = () => {
       icon: IoSunnyOutline,
       greeting: "Good afternoon",
       subtext: "Keep the momentum going",
-      cta: "Track Progress",
     };
   }
 
@@ -27,7 +25,6 @@ export const getGreetings = () => {
       icon: BsSunset,
       greeting: "Good evening",
       subtext: "Wrap up and review your day",
-      cta: "Review Applications",
     };
   }
 
@@ -35,6 +32,5 @@ export const getGreetings = () => {
     icon: IoMoonOutline,
     greeting: "Still working?",
     subtext: "Late night grind — stay focused",
-    cta: "Quick Add",
   };
 };

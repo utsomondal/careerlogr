@@ -43,3 +43,7 @@ export const getRecentApplications = async (limit = 5) => {
   return apiFetch(`/applications/recent?limit=${limit}`);
 };
 
+// GET JOB TYPE
+export const getJobType = async () => {
+  return apiFetch("/applications/type");
+};
