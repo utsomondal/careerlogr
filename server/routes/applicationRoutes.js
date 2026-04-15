@@ -10,6 +10,7 @@ const {
   getApplicationById,
   getApplicationStats,
   getRecentApplications,
+  getJobType,
 } = require("../controllers/applicationController.js");
 
 // Create application
@@ -24,6 +25,9 @@ router.get("/stats", protect, getApplicationStats);
 // Get recent applications
 router.get("/recent", protect, getRecentApplications);
 
+// Get job type
+router.get("/type", protect, getJobType);
+
 // Get single application
 router.get("/:id", protect, getApplicationById);
 
@@ -32,7 +36,5 @@ router.patch("/:id", protect, updateApplication);
 
 // Delete application
 router.delete("/:id", protect, deleteApplication);
-
-
 
 module.exports = router;

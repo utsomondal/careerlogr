@@ -203,6 +203,36 @@ const getRecentApplications = async (req, res) => {
   }
 };
 
+// Get job type
+const getJobType = async (req, res) => {
+  try {
+    const db = getDB();
+    const userId = req.user.userId;
+
+    const remoteCount = await db
+      .collection("applications")
+      .countDocuments({ userId, isRemote: true });
+
+    const onSiteCount = await db
+      .collection("applications")
+      .countDocuments({ userId, isRemote: false });
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        Remote: remoteCount,
+        Onsite: onSiteCount,
+      },
+    });
+  } catch (error) {
+    console.error("Remote stats error:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   addApplication,
   getApplications,
@@ -211,4 +241,5 @@ module.exports = {
   deleteApplication,
   getApplicationStats,
   getRecentApplications,
+  getJobType,
 };
