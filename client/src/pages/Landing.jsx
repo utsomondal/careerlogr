@@ -44,7 +44,7 @@ const Landing = () => {
             </h1>
 
             <p className="font-body text-[15px] leading-relaxed text-white/50 max-w-md sm:max-w-lg font-light">
-              HireTrack helps you stay in control of your job search and track
+              careerlogr helps you stay in control of your job search and track
               applications, manage interviews, and never miss an opportunity.
               Everything in one clean, distraction-free workspace.
             </p>
@@ -82,7 +82,7 @@ const Landing = () => {
             <div className="relative rounded-2xl overflow-hidden border border-white/6 shadow-[0_32px_80px_rgba(0,0,0,0.6)]">
               <img
                 src={img}
-                alt="HireTrack Dashboard"
+                alt="careerlogr Dashboard"
                 className="w-full h-auto block"
               />
 

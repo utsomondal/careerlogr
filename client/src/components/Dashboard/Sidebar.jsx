@@ -80,7 +80,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
             </div>
 
             <button
-              title="Logout HireTrack"
+              title="Logout careerlogr"
               onClick={handleLogout}
               className="w-full flex items-center gap-2 py-2 px-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-colors duration-150"
             >

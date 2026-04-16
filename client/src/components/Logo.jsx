@@ -9,8 +9,8 @@ const Logo = () => {
       </div>
 
       <div className="flex flex-col leading-none">
-        <h1 className="text-lg sm:text-xl text-white font-bold tracking-wide">
-          HIRETRACK
+        <h1 className="text-lg sm:text-xl text-white font-bold tracking-wide uppercase">
+          careerlogr
         </h1>
 
         <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-white/50 font-medium">
