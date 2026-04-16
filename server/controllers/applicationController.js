@@ -245,19 +245,45 @@ const getApplicationTimeline = async (req, res) => {
         {
           $match: {
             userId: userId,
+            dateApplied: {
+              $exists: true,
+              $type: "string",
+            },
           },
         },
+
+        // convert string -> date safely
+        {
+          $addFields: {
+            safeDate: {
+              $dateFromString: {
+                dateString: "$dateApplied",
+                onError: null,
+                onNull: null,
+              },
+            },
+          },
+        },
+
+        // remove invalid dates (VERY IMPORTANT)
+        {
+          $match: {
+            safeDate: { $ne: null },
+          },
+        },
+
         {
           $group: {
             _id: {
               $dateToString: {
                 format: "%Y-%m-%d",
-                date: "$createdAt",
+                date: "$safeDate",
               },
             },
             count: { $sum: 1 },
           },
         },
+
         {
           $sort: { _id: 1 },
         },
