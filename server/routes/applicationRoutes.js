@@ -11,6 +11,7 @@ const {
   getApplicationStats,
   getRecentApplications,
   getJobType,
+  getApplicationTimeline,
 } = require("../controllers/applicationController.js");
 
 // Create application
@@ -27,6 +28,9 @@ router.get("/recent", protect, getRecentApplications);
 
 // Get job type
 router.get("/type", protect, getJobType);
+
+// Get application timeline
+router.get("/timeline", protect, getApplicationTimeline);
 
 // Get single application
 router.get("/:id", protect, getApplicationById);

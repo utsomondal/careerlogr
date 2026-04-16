@@ -233,6 +233,50 @@ const getJobType = async (req, res) => {
   }
 };
 
+// get application timeline
+const getApplicationTimeline = async (req, res) => {
+  try {
+    const db = getDB();
+    const userId = req.user.userId;
+
+    const result = await db
+      .collection("applications")
+      .aggregate([
+        {
+          $match: {
+            userId: userId,
+          },
+        },
+        {
+          $group: {
+            _id: {
+              $dateToString: {
+                format: "%Y-%m-%d",
+                date: "$createdAt",
+              },
+            },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $sort: { _id: 1 },
+        },
+      ])
+      .toArray();
+
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  } catch (error) {
+    console.error("Timeline Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch application timeline",
+    });
+  }
+};
+
 module.exports = {
   addApplication,
   getApplications,
@@ -242,4 +286,5 @@ module.exports = {
   getApplicationStats,
   getRecentApplications,
   getJobType,
+  getApplicationTimeline,
 };
