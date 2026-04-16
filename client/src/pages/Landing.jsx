@@ -90,7 +90,7 @@ const Landing = () => {
               <div className="absolute top-0 left-0 bottom-0 w-14 bg-linear-to-r from-dark-900 to-transparent" />
             </div>
 
-            {/* Floating UI (desktop only safe) */}
+            {/* Floating UI */}
             <div className="hidden lg:block">
               <OfferCard />
               <PipelineCard />

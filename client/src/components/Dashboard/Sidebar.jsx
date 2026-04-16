@@ -47,7 +47,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
       {/* Sidebar */}
       <div
         className={`
-          fixed md:static z-50 top-0 left-0 h-screen w-64 bg-dark-600 text-white p-4 flex flex-col
+          fixed z-50 top-0 left-0 h-screen w-64 bg-dark-600 text-white p-4 flex flex-col
           transform transition-transform duration-300
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0

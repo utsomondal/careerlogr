@@ -12,12 +12,22 @@ import {
 } from "recharts";
 import { getApplicationTimeline } from "../../api/application";
 import CustomTooltip from "./CustomTooltip";
+import { useEffect, useState } from "react";
 
 const ApplicationTimeline = () => {
   const { data } = useQuery({
     queryKey: ["applicationTimeline"],
     queryFn: getApplicationTimeline,
   });
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const chartData =
     data?.data?.map((item) => ({
@@ -29,30 +39,30 @@ const ApplicationTimeline = () => {
       applications: item.count,
     })) || [];
 
-  // total
   const total = chartData.reduce((acc, curr) => acc + curr.applications, 0);
 
-  // trend (last vs previous)
   const last = chartData[chartData.length - 1]?.applications || 0;
   const prev = chartData[chartData.length - 2]?.applications || 0;
   const trend = last - prev;
 
   return (
-    <div className="w-full h-80 p-4 flex flex-col justify-between">
-      {/* HEADER INSIGHTS */}
+    <div className="w-full h-full p-2 sm:p-4 flex flex-col justify-between">
+      {/* HEADER */}
       <div className="flex items-center justify-between mb-2">
         <div>
-          <p className="text-xs text-gray-400">Total Applications</p>
-          <p className="text-xl font-semibold">{total}</p>
+          <p className="text-[10px] sm:text-xs text-gray-400">
+            Total Applications
+          </p>
+          <p className="text-lg sm:text-xl font-semibold">{total}</p>
         </div>
 
         <div
-          className={`text-sm font-medium ${
+          className={`text-xs sm:text-sm font-medium ${
             trend >= 0 ? "text-green-400" : "text-red-400"
           }`}
         >
           {trend >= 0 ? "+" : ""}
-          {trend} from last day
+          {trend}
         </div>
       </div>
 
@@ -72,16 +82,18 @@ const ApplicationTimeline = () => {
             <XAxis
               dataKey="date"
               stroke="#9ca3af"
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: isMobile ? 10 : 12 }}
               tickLine={false}
               axisLine={false}
+              interval={isMobile ? "preserveStartEnd" : 0}
             />
 
             <YAxis
               stroke="#9ca3af"
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: isMobile ? 10 : 12 }}
               tickLine={false}
               axisLine={false}
+              width={isMobile ? 25 : 35}
             />
 
             <Tooltip
@@ -100,17 +112,16 @@ const ApplicationTimeline = () => {
               type="monotone"
               dataKey="applications"
               stroke="#4ade80"
-              strokeWidth={3}
+              strokeWidth={2}
               dot={false}
-              activeDot={{ r: 6 }}
+              activeDot={{ r: isMobile ? 4 : 6 }}
             />
           </AreaChart>
         </ResponsiveContainer>
       </div>
 
-      {/* 💤 EMPTY STATE */}
       {!chartData.length && (
-        <p className="text-center text-gray-400 text-sm">
+        <p className="text-center text-gray-400 text-xs sm:text-sm">
           No application data yet
         </p>
       )}

@@ -3,12 +3,21 @@ import { statusColors } from "./statusConfig";
 import { FiArrowUpRight, FiEdit2, FiTrash2 } from "react-icons/fi";
 
 const ApplicationRow = ({ application, onConfirmDelete }) => {
-  const { _id, company, role, salary, status, dateApplied, isRemote, jobUrl } =
-    application;
+  const {
+    _id,
+    company,
+    role,
+    salary,
+    status,
+    dateApplied,
+    isRemote,
+    jobUrl,
+    notes,
+  } = application;
 
   return (
     <>
-      <tr className="border-b border-white/4 hover:bg-dark-800/50 transition-colors duration-150 group">
+      <tr className="relative border-b border-white/4 hover:bg-dark-800/50 transition-colors duration-150 group">
         <td className="py-4 px-5">
           <span className="text-white/85 text-sm font-medium truncate">
             {company}
@@ -90,6 +99,20 @@ const ApplicationRow = ({ application, onConfirmDelete }) => {
             </button>
           </div>
         </td>
+
+        {notes && (
+          <td className="absolute left-5 top-5 -translate-y-full hidden group-hover:block z-100 w-72">
+            <div className="relative bg-dark-700/95 backdrop-blur-md border border-white/10 text-white/70 text-xs p-3 rounded-xl shadow-xl">
+              <p className="text-white/40 mb-1 text-[10px] uppercase tracking-wide">
+                Notes
+              </p>
+              <p className="text-white/70 leading-relaxed line-clamp-4">
+                {notes}
+              </p>
+              <div className="absolute -bottom-1 left-5 w-2.5 h-2.5 bg-dark-700 rotate-45 border-r border-b border-white/10"></div>
+            </div>
+          </td>
+        )}
       </tr>
     </>
   );
