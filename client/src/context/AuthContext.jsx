@@ -4,7 +4,8 @@ import { getMe, logoutUser } from "../api/auth";
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const fetchUser = async () => {
     try {
@@ -12,15 +13,13 @@ export const AuthProvider = ({ children }) => {
       setUser(result.data);
     } catch {
       setUser(null);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    const initAuth = async () => {
-      await fetchUser();
-    };
-
-    initAuth();
+    fetchUser();
   }, []);
 
   const setAuthUser = async () => {
@@ -41,7 +40,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setAuthUser, fetchUser, logout }}>
+    <AuthContext.Provider
+      value={{ user, loading, setAuthUser, fetchUser, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

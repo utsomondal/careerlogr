@@ -3,6 +3,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://careerlogr.onrender.com/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
