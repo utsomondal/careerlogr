@@ -9,16 +9,35 @@ import Applications from "../pages/Applications";
 import AddApplication from "../pages/AddApplication";
 import ErrorPage from "../pages/ErrorPage";
 import UpdateApplication from "../pages/UpdateApplication";
+import PublicRoute from "./PublicRoute.jsx";
 
 const router = createBrowserRouter([
-  //  Public routes
+  // Public routes
   {
     path: "/",
-    element: <Landing />,
+    element: (
+      <PublicRoute>
+        <Landing />
+      </PublicRoute>
+    ),
     errorElement: <ErrorPage />,
   },
-  { path: "/login", element: <Login /> },
-  { path: "/register", element: <Register /> },
+  {
+    path: "/login",
+    element: (
+      <PublicRoute>
+        <Login />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: "/register",
+    element: (
+      <PublicRoute>
+        <Register />
+      </PublicRoute>
+    ),
+  },
 
   // Protected routes
   {
@@ -56,11 +75,10 @@ const router = createBrowserRouter([
             <UpdateApplication />
           </PrivateRoute>
         ),
-      }
+      },
     ],
   },
 
-  // fallback for any unmatched route
   {
     path: "*",
     element: <ErrorPage />,
