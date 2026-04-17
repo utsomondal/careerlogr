@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { fetchUser } = useAuth();
 
   const onSubmit = async (data) => {
     const toastId = toast.loading("Logging in...");
@@ -19,7 +19,8 @@ const Login = () => {
 
     try {
       await loginUser(data);
-      await login();
+
+      await fetchUser();
 
       toast.success("Welcome back 👋", { id: toastId });
 

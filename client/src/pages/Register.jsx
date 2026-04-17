@@ -9,18 +9,19 @@ import Logo from "../components/Logo";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { fetchUser } = useAuth();
 
   const onSubmit = async (data) => {
     const toastId = toast.loading("Creating account...");
 
     try {
       await registerUser(data);
-      await login();
+
+      await fetchUser();
 
       toast.success("Account created 🎉", { id: toastId });
 
-      navigate("/dashboard");
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       toast.error(error.message || "Registration failed", {
         id: toastId,

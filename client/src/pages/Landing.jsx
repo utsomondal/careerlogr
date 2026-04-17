@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 import { IoArrowForward } from "react-icons/io5";
 import { useAuth } from "../hooks/useAuth";
-import img from "/hero-img.png";
+import img from "../assets/hero-img.png";
 import Logo from "../components/Logo";
 import Badge from "../components/LandingPage/Badge";
 import Stats from "../components/LandingPage/Stats";

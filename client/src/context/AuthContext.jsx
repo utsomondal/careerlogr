@@ -1,11 +1,10 @@
 import { createContext, useState, useEffect } from "react";
-import { getMe } from "../api/auth";
+import { getMe, logoutUser } from "../api/auth";
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(undefined);
 
   const fetchUser = async () => {
     try {
@@ -13,25 +12,36 @@ export const AuthProvider = ({ children }) => {
       setUser(result.data);
     } catch {
       setUser(null);
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchUser();
+    const initAuth = async () => {
+      await fetchUser();
+    };
+
+    initAuth();
   }, []);
 
-  const login = async () => {
-    await fetchUser();
+  const setAuthUser = async () => {
+    try {
+      const result = await getMe();
+      setUser(result.data);
+    } catch {
+      setUser(null);
+    }
   };
 
-  const logout = () => {
-    setUser(null);
+  const logout = async () => {
+    try {
+      await logoutUser();
+    } finally {
+      setUser(null);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, setAuthUser, fetchUser, logout }}>
       {children}
     </AuthContext.Provider>
   );
