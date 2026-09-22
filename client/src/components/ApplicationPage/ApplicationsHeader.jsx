@@ -1,7 +1,9 @@
 import { Link } from "react-router";
 import { IoMdAdd } from "react-icons/io";
 
-const ApplicationsHeader = ({ count = 0 }) => {
+const ApplicationsHeader = ({ count = 0, total }) => {
+  const showFiltered = total !== undefined && total !== count;
+
   return (
     <div className="flex items-center justify-between mb-8">
       <div>
@@ -9,13 +11,17 @@ const ApplicationsHeader = ({ count = 0 }) => {
           Applications
         </h1>
         <p className="text-dark-500 text-sm mt-1 font-medium">
-          {count} {count === 1 ? "application" : "applications"} tracked
+          {showFiltered
+            ? `${count} of ${total} applications`
+            : `${count} ${count === 1 ? "application" : "applications"} tracked`}
         </p>
       </div>
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-2 bg-dark-800/70 border border-white/10 rounded-lg px-4 py-2">
           <p className="text-accent font-semibold leading-none">{count}</p>
-          <p className="text-dark-500 text-sm font-medium">Total</p>
+          <p className="text-dark-500 text-sm font-medium">
+            {showFiltered ? "Shown" : "Total"}
+          </p>
         </div>
         <Link
           title="Add New Application"
