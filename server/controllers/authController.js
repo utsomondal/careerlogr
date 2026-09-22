@@ -191,8 +191,8 @@ const getMe = async (req, res) => {
 };
 
 // Guest / Demo login
-const DEMO_EMAIL = process.env.DEMO_EMAIL || "demo@careerlogr.com";
-const DEMO_PASSWORD = process.env.DEMO_PASSWORD || "Demo@12345";
+const DEMO_EMAIL = process.env.DEMO_EMAIL;
+const DEMO_PASSWORD = process.env.DEMO_PASSWORD;
 const DEMO_NAME = "Demo User";
 
 const guestLogin = async (req, res) => {
