@@ -7,6 +7,7 @@ import LoginLeft from "../components/Auth/LoginPage/LoginLeft";
 import LoginForm from "../components/Auth/LoginPage/LoginForm";
 import Logo from "../components/Logo";
 import toast from "react-hot-toast";
+import { guestLogin } from "../api/auth";
 
 const Login = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,6 +35,24 @@ const Login = () => {
     }
   };
 
+  const [isGuestLoading, setIsGuestLoading] = useState(false);
+
+  const handleGuestLogin = async () => {
+    const toastId = toast.loading("Entering demo...");
+    setIsGuestLoading(true);
+
+    try {
+      await guestLogin();
+      await fetchUser();
+      toast.success("Welcome to the demo 👋", { id: toastId });
+      navigate("/dashboard", { replace: true });
+    } catch (error) {
+      toast.error(error.message || "Guest login failed", { id: toastId });
+    } finally {
+      setIsGuestLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-dark-900 relative overflow-hidden px-4 sm:px-6 lg:px-12">
       <Background />
@@ -48,7 +67,12 @@ const Login = () => {
             <LoginLeft />
           </div>
           <div className="flex justify-center w-full">
-            <LoginForm onSubmit={onSubmit} isSubmitting={isSubmitting} />
+            <LoginForm
+              onSubmit={onSubmit}
+              isSubmitting={isSubmitting}
+              onGuestLogin={handleGuestLogin}
+              isGuestLoading={isGuestLoading}
+            />
           </div>
         </div>
       </div>

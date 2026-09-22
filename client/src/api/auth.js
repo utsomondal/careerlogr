@@ -27,3 +27,10 @@ export const logoutUser = async () => {
 export const getMe = async () => {
   return await apiFetch("/auth/me");
 };
+
+// Guest / demo login
+export const guestLogin = async () => {
+  return await apiFetch("/auth/guest", {
+    method: "POST",
+  });
+};

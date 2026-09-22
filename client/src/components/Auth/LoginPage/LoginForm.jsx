@@ -3,9 +3,13 @@ import { Link } from "react-router";
 import { useForm } from "react-hook-form";
 import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 
-const LoginForm = ({ onSubmit, isSubmitting }) => {
+const LoginForm = ({
+  onSubmit,
+  isSubmitting,
+  onGuestLogin,
+  isGuestLoading,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
-
   const {
     register,
     handleSubmit,
@@ -80,6 +84,23 @@ const LoginForm = ({ onSubmit, isSubmitting }) => {
           className="w-full py-3 rounded-xl bg-accent text-black font-semibold hover:opacity-90 transition disabled:opacity-50"
         >
           {isSubmitting ? "Logging in..." : "Login"}
+        </button>
+
+        {/* Divider */}
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-px bg-white/10" />
+          <span className="text-xs text-gray-500">or</span>
+          <div className="flex-1 h-px bg-white/10" />
+        </div>
+
+        {/* Guest login */}
+        <button
+          type="button"
+          onClick={onGuestLogin}
+          disabled={isSubmitting || isGuestLoading}
+          className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 transition disabled:opacity-50"
+        >
+          {isGuestLoading ? "Loading demo..." : "Try as Guest — no signup"}
         </button>
 
         {/* FOOTER */}
