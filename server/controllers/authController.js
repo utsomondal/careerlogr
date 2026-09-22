@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { getDB } = require("../config/db");
 const { ObjectId } = require("mongodb");
+const { seedDemoApplications } = require("../utils/seedDemo");
 
 // cookie config
 const getCookieOptions = () => {
@@ -189,4 +190,69 @@ const getMe = async (req, res) => {
   }
 };
 
-module.exports = { register, login, logout, getMe };
+// Guest / Demo login
+const DEMO_EMAIL = process.env.DEMO_EMAIL || "demo@careerlogr.com";
+const DEMO_PASSWORD = process.env.DEMO_PASSWORD || "Demo@12345";
+const DEMO_NAME = "Demo User";
+
+const guestLogin = async (req, res) => {
+  try {
+    const db = getDB();
+
+    // 1. Find or create demo user
+    let user = await db.collection("users").findOne({ email: DEMO_EMAIL });
+
+    if (!user) {
+      const hashed = await bcrypt.hash(DEMO_PASSWORD, 10);
+      const now = new Date().toISOString();
+
+      const result = await db.collection("users").insertOne({
+        name: DEMO_NAME,
+        email: DEMO_EMAIL,
+        password: hashed,
+        isDemo: true,
+        createdAt: now,
+        updatedAt: now,
+      });
+
+      user = {
+        _id: result.insertedId,
+        name: DEMO_NAME,
+        email: DEMO_EMAIL,
+      };
+    }
+
+    const userId = user._id.toString();
+
+    // 2. Seed sample applications (only if empty)
+    await seedDemoApplications(db, userId);
+
+    // 3. JWT + cookie
+    const token = jwt.sign(
+      { userId, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" },
+    );
+
+    res.cookie("token", token, getCookieOptions());
+
+    return res.status(200).json({
+      success: true,
+      message: "Guest login successful",
+      data: {
+        id: user._id,
+        name: user.name || DEMO_NAME,
+        email: user.email,
+        isDemo: true,
+      },
+    });
+  } catch (error) {
+    console.error("Guest login error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+};
+
+module.exports = { register, login, logout, getMe, guestLogin };
