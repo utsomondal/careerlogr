@@ -168,31 +168,33 @@ const getApplicationStats = async (req, res) => {
         {
           $group: {
             _id: null,
-            totalApplied: { $sum: 1 },
-            inProgress: {
-              $sum: {
-                $cond: [{ $eq: ["$status", "Screening"] }, 1, 0],
-              },
+            total: { $sum: 1 },
+            wishlist: {
+              $sum: { $cond: [{ $eq: ["$status", "Wishlist"] }, 1, 0] },
             },
-            interviewed: {
-              $sum: {
-                $cond: [{ $eq: ["$status", "Interview"] }, 1, 0],
-              },
+            applied: {
+              $sum: { $cond: [{ $eq: ["$status", "Applied"] }, 1, 0] },
             },
-            offered: {
-              $sum: {
-                $cond: [{ $eq: ["$status", "Offer"] }, 1, 0],
-              },
+            interview: {
+              $sum: { $cond: [{ $eq: ["$status", "Interview"] }, 1, 0] },
+            },
+            offer: {
+              $sum: { $cond: [{ $eq: ["$status", "Offer"] }, 1, 0] },
+            },
+            rejected: {
+              $sum: { $cond: [{ $eq: ["$status", "Rejected"] }, 1, 0] },
             },
           },
         },
       ])
       .toArray();
     const result = stats[0] || {
-      totalApplied: 0,
-      inProgress: 0,
-      interviewed: 0,
-      offered: 0,
+      total: 0,
+      wishlist: 0,
+      applied: 0,
+      interview: 0,
+      offer: 0,
+      rejected: 0,
     };
 
     res.status(200).json(result);

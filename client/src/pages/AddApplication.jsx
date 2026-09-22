@@ -114,24 +114,14 @@ const AddApplication = () => {
                 defaultValue=""
                 className={`${inputBase} appearance-none pr-10`}
               >
-                <option value="" disabled className="bg-dark-800">
+                <option value="" disabled>
                   Choose status
                 </option>
-                <option value="Applied" className="bg-dark-800">
-                  Applied
-                </option>
-                <option value="Screening" className="bg-dark-800">
-                  Screening
-                </option>
-                <option value="Interview" className="bg-dark-800">
-                  Interview
-                </option>
-                <option value="Offer" className="bg-dark-800">
-                  Offer
-                </option>
-                <option value="Rejected" className="bg-dark-800">
-                  Rejected
-                </option>
+                <option value="Wishlist">Wishlist</option>
+                <option value="Applied">Applied</option>
+                <option value="Interview">Interview</option>
+                <option value="Offer">Offer</option>
+                <option value="Rejected">Rejected</option>
               </select>
               {/* custom arrow */}
               <div className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">

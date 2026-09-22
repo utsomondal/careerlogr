@@ -3,7 +3,7 @@
  * Used only by POST /auth/guest
  *
  * Dates are intentionally clustered so the
- * "Applications Over Time" chart has peaks (not a flat line).
+ * "Applications Over Time" chart has peaks.
  */
 
 const daysAgo = (n) => {

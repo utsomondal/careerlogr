@@ -126,9 +126,11 @@ const UpdateApplication = () => {
                 {...register("status", { required: "Status is required" })}
                 className={`${inputBase} appearance-none pr-10`}
               >
-                <option value="">Choose status</option>
+                <option value="" disabled>
+                  Choose status
+                </option>
+                <option value="Wishlist">Wishlist</option>
                 <option value="Applied">Applied</option>
-                <option value="Screening">Screening</option>
                 <option value="Interview">Interview</option>
                 <option value="Offer">Offer</option>
                 <option value="Rejected">Rejected</option>
