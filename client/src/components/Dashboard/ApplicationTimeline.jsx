@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import {
-  LineChart,
   Line,
   XAxis,
   YAxis,
@@ -29,17 +28,22 @@ const ApplicationTimeline = () => {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  // Cumulative total over time → rising line
+  let runningTotal = 0;
   const chartData =
-    data?.data?.map((item) => ({
-      date: new Date(item._id).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      }),
-      rawDate: item._id,
-      applications: item.count,
-    })) || [];
+    data?.data?.map((item) => {
+      runningTotal += item.count;
+      return {
+        date: new Date(item._id).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        }),
+        rawDate: item._id,
+        applications: runningTotal,
+      };
+    }) || [];
 
-  const total = chartData.reduce((acc, curr) => acc + curr.applications, 0);
+  const total = chartData[chartData.length - 1]?.applications || 0;
 
   const last = chartData[chartData.length - 1]?.applications || 0;
   const prev = chartData[chartData.length - 2]?.applications || 0;
@@ -94,6 +98,7 @@ const ApplicationTimeline = () => {
               tickLine={false}
               axisLine={false}
               width={isMobile ? 25 : 35}
+              allowDecimals={false}
             />
 
             <Tooltip
