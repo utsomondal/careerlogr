@@ -34,15 +34,18 @@ app.get("/health", (req, res) => {
   res.send("OK");
 });
 
-async function startServer() {
-  try {
-    await connectDB();
-    app.listen(process.env.PORT || 5000, () => {
-      console.log(`Server running on port ${process.env.PORT || 5000}`);
-    });
-  } catch (err) {
-    console.log("Failed to start", err);
-  }
-}
+// async function startServer() {
+//   try {
+//     await connectDB();
+//     app.listen(process.env.PORT || 5000, () => {
+//       console.log(`Server running on port ${process.env.PORT || 5000}`);
+//     });
+//   } catch (err) {
+//     console.log("Failed to start", err);
+//   }
+// }
 
-startServer();
+// startServer();
+
+connectDB();
+module.exports = app;
